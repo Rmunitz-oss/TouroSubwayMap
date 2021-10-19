@@ -2,9 +2,9 @@ package touro.subwaymap;
 
 import java.util.List;
 
-public class Station {
+public class Stations {
     List<Features> features;
-    List<Station> connections;
+    List<Stations> connections;
     //TO DO: each station will have a list of connecting stations
 
     static class Features {
