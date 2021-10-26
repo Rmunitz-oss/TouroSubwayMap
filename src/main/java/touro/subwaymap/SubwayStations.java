@@ -1,11 +1,9 @@
 package touro.subwaymap;
 
-import java.util.List;
+import java.util.*;
 
-public class Stations {
+public class SubwayStations {
     List<Features> features;
-    List<Stations> connections;
-    //TO DO: each station will have a list of connecting stations
 
     static class Features {
         Properties properties;
@@ -14,8 +12,11 @@ public class Stations {
         static class Properties {
             String name;
             int objectid;
-        }
+            String line;
+            String [] connectingLines;
+            ArrayList<String> connectingStationIDs = new ArrayList<>(); //allowed to do this here?
 
+        }
         static class Geometry {
             List<Double> coordinates;
         }
