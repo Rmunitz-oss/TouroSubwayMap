@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class JSONReader {
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
     private Reader reader;
 
     public SubwayStations readSubwayStationJSON() throws IOException {

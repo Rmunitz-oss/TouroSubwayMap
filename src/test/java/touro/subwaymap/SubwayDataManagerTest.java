@@ -7,8 +7,8 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class StationLineConnectionsTest {
-    private StationLineConnections connections;
+public class SubwayDataManagerTest {
+    private SubwayDataManager connections;
     private SubwayStations subwayStations;
     private Map<String,ArrayList<String>> lineStationMap;
 
@@ -18,21 +18,19 @@ public class StationLineConnectionsTest {
         givenStationLineConnections();
 
         //when
-        connections. connectSubwayData(subwayStations,lineStationMap);
+        connections.processSubwayData(subwayStations,lineStationMap);
 
         //then
         assertEquals("4", subwayStations.features.get(0).properties.connectingLines[0]);
         assertEquals("213", subwayStations.features.get(0).properties.connectingStationIDs.get(0));
         assertEquals("46", subwayStations.features.get(0).properties.connectingStationIDs.get(1));
-        //write better tests to show getting subwayStations from each line, not just first
-
     }
 
     @Test
     public void getConnectingStations() throws IOException{
         //given
         givenStationLineConnections();
-        connections.connectSubwayData(subwayStations,lineStationMap);
+        connections.processSubwayData(subwayStations,lineStationMap);
 
         //when
         ArrayList<String> connectingStations = connections.getConnectingStations(subwayStations,1);
@@ -43,7 +41,7 @@ public class StationLineConnectionsTest {
     }
 
     public void givenStationLineConnections() throws IOException {
-        connections = new StationLineConnections();
+        connections = new SubwayDataManager();
         JSONReader jsonReader = new JSONReader();
         subwayStations = jsonReader.readSubwayStationJSON();
         lineStationMap = jsonReader.readSubwayLinesJSON();

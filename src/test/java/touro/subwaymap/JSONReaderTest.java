@@ -35,10 +35,12 @@ public class JSONReaderTest {
         Map <String,ArrayList<String>> subwayLines = jsonReader.readSubwayLinesJSON();
 
         //then
-        //best way to test a map?
-        for(Map.Entry<String,ArrayList<String>> entry : subwayLines.entrySet()){
-            if (entry.getKey().equals("A")){
-                assertEquals("55", entry.getValue().get(0));
+        for(String lineKey : subwayLines.keySet()){
+            if (lineKey.equals("A")){
+                assertEquals("55", subwayLines.get(lineKey).get(0));
+            }
+            if(lineKey.equals("6 Express")){
+                assertEquals("29", subwayLines.get(lineKey).get(0));
             }
         }
     }

@@ -5,26 +5,24 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-//rename class?
-
-public class StationLineConnections {
-    public void connectSubwayData(SubwayStations subwayStations, Map <String,ArrayList<String>> lineStationMap) {
+public class SubwayDataManager {
+    public void processSubwayData(SubwayStations subwayStations, Map <String,ArrayList<String>> lineStationMap) {
         for (int index =0; index < subwayStations.features.size(); index++ ){
-            Properties station = subwayStations.features.get(index).properties;
-            station.connectingLines = station.line.split("-");
-            for (String line : station.connectingLines) {
+            Properties stationProperties = subwayStations.features.get(index).properties;
+            stationProperties.connectingLines = stationProperties.line.split("-");
+            for (String line : stationProperties.connectingLines) {
                 for (String lineKey : lineStationMap.keySet()){
                     if(lineKey.equals(line)){
-                        station.connectingStationIDs.addAll(lineStationMap.get(lineKey));
+                        stationProperties.connectingStationIDs.addAll(lineStationMap.get(lineKey));
                     }
                 }
             }
             //remove duplicates
-            station.connectingStationIDs = (ArrayList<String>) station.connectingStationIDs.stream().distinct().collect(Collectors.toList());
+            stationProperties.connectingStationIDs = (ArrayList<String>) stationProperties.connectingStationIDs.stream().distinct().collect(Collectors.toList());
         }
 
     }
-// is this needed if this information can be accessed directly through a subwayStations object?
+    // is this needed if this information can be accessed directly through the subwayStations object?
     public ArrayList <String> getConnectingStations(SubwayStations subwayStations, int stationID){
         for (int index = 0; index < subwayStations.features.size(); index++ ){
             Properties stationProperties = subwayStations.features.get(index).properties;

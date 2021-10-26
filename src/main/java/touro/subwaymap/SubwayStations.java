@@ -14,8 +14,7 @@ public class SubwayStations {
             int objectid;
             String line;
             String [] connectingLines;
-            ArrayList<String> connectingStationIDs = new ArrayList<>(); //allowed to do this here?
-
+            ArrayList<String> connectingStationIDs  = new ArrayList<>();
         }
         static class Geometry {
             List<Double> coordinates;
