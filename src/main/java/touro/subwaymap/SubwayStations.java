@@ -12,12 +12,25 @@ public class SubwayStations {
         Properties properties;
         Geometry geometry;
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Station station = (Station) o;
+            return properties.equals(station.properties) && geometry.equals(station.geometry);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(properties, geometry);
+        }
+
         static class Properties {
             String name;
             int objectid;
             String line;
             String [] connectingLines;
-            ArrayList<Integer> adjacentStationIDs = new ArrayList<>();
+            ArrayList<Station> adjacentStations = new ArrayList<>();
         }
         static class Geometry {
             List<Double> coordinates;

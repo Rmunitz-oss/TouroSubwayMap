@@ -5,11 +5,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
+import static touro.subwaymap.SubwayStations.*;
+
 
 public class SubwayDataManagerTest {
     private SubwayDataManager subwayDataManager;
-    private SubwayStations.Station station;
+    private SubwayStations subwayStations;
+    private Station station;
+    private Station precedingStation;
+    private Station followingStation;
     private Map<String,ArrayList<Integer>> lineStationMap;
+
 
     @Test
     public void connectSubwayData() throws IOException {
@@ -17,20 +23,21 @@ public class SubwayDataManagerTest {
         givenStationLineConnections();
 
         //when
-        subwayDataManager.processSubwayData(station,lineStationMap,1);
+        subwayDataManager.processSubwayData(subwayStations,lineStationMap,1);
 
         //then
+        //test hash map
         assertEquals("4",station.properties.connectingLines[0]);
-        assertEquals(457,station.properties.adjacentStationIDs.get(0));
-        assertEquals(105, station.properties.adjacentStationIDs.get(1));
-        //test with first or last station in a line to confirm
-
+        assertEquals(precedingStation, station.properties.adjacentStations.get(0));
+        assertEquals(followingStation, station.properties.adjacentStations.get(1));
     }
 
     public void givenStationLineConnections() throws IOException {
         JSONReader jsonReader = new JSONReader();
-        SubwayStations subwayStations = jsonReader.readSubwayStationJSON();
+        subwayStations = jsonReader.readSubwayStationJSON();
         station = subwayStations.stations.get(0);
+        precedingStation = subwayStations.stations.get(456);
+        followingStation = subwayStations.stations.get(104);
         lineStationMap = jsonReader.readSubwayLinesJSON();
         subwayDataManager = new SubwayDataManager();
     }
