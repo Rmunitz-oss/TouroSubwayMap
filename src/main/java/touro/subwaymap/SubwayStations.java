@@ -29,9 +29,13 @@ public class SubwayStations {
             String name;
             int objectid;
             String line;
-            String [] connectingLines;
             ArrayList<Station> adjacentStations = new ArrayList<>();
+
+            public String [] getConnectingLines(){
+                return line.split("-");
+            }
         }
+
         static class Geometry {
             List<Double> coordinates;
         }

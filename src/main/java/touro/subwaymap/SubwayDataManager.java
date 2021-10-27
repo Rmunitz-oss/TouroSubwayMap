@@ -11,8 +11,7 @@ public class SubwayDataManager {
             idToStationMap.put(station.properties.objectid,station); // extract method?
         }
         for (Station station : subwayStations.stations){
-            station.properties.connectingLines = station.properties.line.split("-");
-            for (String line : station.properties.connectingLines) {
+            for (String line : station.properties.getConnectingLines()) {
                 for (String lineKey : lineStationMap.keySet()){
                     if(lineKey.equals(line)){
                         ArrayList<Integer> connectingStationIDs = lineStationMap.get(lineKey);
@@ -21,7 +20,7 @@ public class SubwayDataManager {
                             int precedingStationID = connectingStationIDs.get(ix-1);
                             station.properties.adjacentStations.add(idToStationMap.get(precedingStationID));
                         }
-                        if (ix < connectingStationIDs.size()){
+                        if (ix < connectingStationIDs.size() - 1){
                             int followingStationID = connectingStationIDs.get(ix+1);
                             station.properties.adjacentStations.add(idToStationMap.get(followingStationID));
                         }

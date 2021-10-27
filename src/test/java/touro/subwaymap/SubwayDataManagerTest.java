@@ -25,7 +25,7 @@ public class SubwayDataManagerTest {
 
         //then
         //test hash map
-        assertEquals("4",station.properties.connectingLines[0]);
+        assertEquals("4",station.properties.getConnectingLines()[0]);
         assertEquals(precedingStation, station.properties.adjacentStations.get(0));
         assertEquals(followingStation, station.properties.adjacentStations.get(1));
     }
