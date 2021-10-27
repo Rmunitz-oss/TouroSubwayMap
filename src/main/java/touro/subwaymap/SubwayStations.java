@@ -1,11 +1,14 @@
 package touro.subwaymap;
 
+import com.google.gson.annotations.SerializedName;
 import java.util.*;
 
 public class SubwayStations {
-    List<Features> features;
 
-    static class Features {
+    @SerializedName("features")
+    List<Station> stations;
+
+    static class Station {
         Properties properties;
         Geometry geometry;
 
@@ -14,7 +17,7 @@ public class SubwayStations {
             int objectid;
             String line;
             String [] connectingLines;
-            ArrayList<String> connectingStationIDs  = new ArrayList<>();
+            ArrayList<Integer> adjacentStationIDs = new ArrayList<>();
         }
         static class Geometry {
             List<Double> coordinates;

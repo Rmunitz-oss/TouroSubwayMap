@@ -4,13 +4,12 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SubwayDataManagerTest {
-    private SubwayDataManager connections;
-    private SubwayStations subwayStations;
-    private Map<String,ArrayList<String>> lineStationMap;
+    private SubwayDataManager subwayDataManager;
+    private SubwayStations.Station station;
+    private Map<String,ArrayList<Integer>> lineStationMap;
 
     @Test
     public void connectSubwayData() throws IOException {
@@ -18,32 +17,21 @@ public class SubwayDataManagerTest {
         givenStationLineConnections();
 
         //when
-        connections.processSubwayData(subwayStations,lineStationMap);
+        subwayDataManager.processSubwayData(station,lineStationMap,1);
 
         //then
-        assertEquals("4", subwayStations.features.get(0).properties.connectingLines[0]);
-        assertEquals("213", subwayStations.features.get(0).properties.connectingStationIDs.get(0));
-        assertEquals("46", subwayStations.features.get(0).properties.connectingStationIDs.get(1));
-    }
+        assertEquals("4",station.properties.connectingLines[0]);
+        assertEquals(457,station.properties.adjacentStationIDs.get(0));
+        assertEquals(105, station.properties.adjacentStationIDs.get(1));
+        //test with first or last station in a line to confirm
 
-    @Test
-    public void getConnectingStations() throws IOException{
-        //given
-        givenStationLineConnections();
-        connections.processSubwayData(subwayStations,lineStationMap);
-
-        //when
-        ArrayList<String> connectingStations = connections.getConnectingStations(subwayStations,1);
-
-        //then
-        assertFalse(subwayStations.features.get(0).properties.connectingStationIDs.isEmpty());
-        assertEquals(connectingStations, subwayStations.features.get(0).properties.connectingStationIDs);
     }
 
     public void givenStationLineConnections() throws IOException {
-        connections = new SubwayDataManager();
         JSONReader jsonReader = new JSONReader();
-        subwayStations = jsonReader.readSubwayStationJSON();
+        SubwayStations subwayStations = jsonReader.readSubwayStationJSON();
+        station = subwayStations.stations.get(0);
         lineStationMap = jsonReader.readSubwayLinesJSON();
+        subwayDataManager = new SubwayDataManager();
     }
 }

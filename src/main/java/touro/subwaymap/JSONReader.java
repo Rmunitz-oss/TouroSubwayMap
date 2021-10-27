@@ -1,12 +1,14 @@
 package touro.subwaymap;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
+
 
 public class JSONReader {
     private final Gson gson = new Gson();
@@ -19,10 +21,10 @@ public class JSONReader {
         return subwayStations;
     }
 
-    //reading directly into a map?
-    public Map<String,ArrayList<String>> readSubwayLinesJSON() throws IOException {
+    public Map<String,ArrayList<Integer>> readSubwayLinesJSON() throws IOException {
         reader = Files.newBufferedReader(Paths.get("src/main/resources/SubwayLines.json"));
-        Map<String,ArrayList<String>> subwayLines = gson.fromJson(reader, Map.class);
+        Type type = new TypeToken<HashMap<String,ArrayList<Integer>>>(){}.getType();
+        Map<String,ArrayList<Integer>> subwayLines = gson.fromJson(reader, type);
         reader.close();
         return subwayLines;
     }
