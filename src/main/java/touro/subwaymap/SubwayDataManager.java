@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import static touro.subwaymap.SubwayStations.*;
 
-//to do: add station objects, versus station IDs
 public class SubwayDataManager {
     Map<Integer,Station> idToStationMap = new HashMap<>();
     public void processSubwayData(SubwayStations subwayStations, Map <String,ArrayList<Integer>> lineStationMap, int stationID) {
@@ -19,14 +18,12 @@ public class SubwayDataManager {
                         ArrayList<Integer> connectingStationIDs = lineStationMap.get(lineKey);
                         int ix = connectingStationIDs.indexOf(stationID);
                         if (ix > 0){
-                            int adjacentStationID = connectingStationIDs.get(ix-1);
-                            station.properties.adjacentStations.add(idToStationMap.get(adjacentStationID));
-                            //station.properties.adjacentStationIDs.add(connectingStationIDs.get(ix-1));
+                            int precedingStationID = connectingStationIDs.get(ix-1);
+                            station.properties.adjacentStations.add(idToStationMap.get(precedingStationID));
                         }
                         if (ix < connectingStationIDs.size()){
-                            int adjacentStationID = connectingStationIDs.get(ix+1);
-                            station.properties.adjacentStations.add(idToStationMap.get(adjacentStationID));
-                            //station.properties.adjacentStationIDs.add(connectingStationIDs.get(ix+1));
+                            int followingStationID = connectingStationIDs.get(ix+1);
+                            station.properties.adjacentStations.add(idToStationMap.get(followingStationID));
                         }
                     }
                 }
@@ -35,15 +32,5 @@ public class SubwayDataManager {
             station.properties.adjacentStations = (ArrayList<Station>) station.properties.adjacentStations.stream().distinct().collect(Collectors.toList());
         }
     }
-    /* where to put this method?
-    public void createHashMap(SubwayStations subwayStations){
-        for (Station station : subwayStations.stations){
-            int key = station.properties.objectid;
-            Station value = station;
-            idToStationMap.put(key,value);
-        }
-    }
-    \
-     */
 }
 

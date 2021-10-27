@@ -7,7 +7,6 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static touro.subwaymap.SubwayStations.*;
 
-
 public class SubwayDataManagerTest {
     private SubwayDataManager subwayDataManager;
     private SubwayStations subwayStations;
@@ -15,7 +14,6 @@ public class SubwayDataManagerTest {
     private Station precedingStation;
     private Station followingStation;
     private Map<String,ArrayList<Integer>> lineStationMap;
-
 
     @Test
     public void connectSubwayData() throws IOException {
