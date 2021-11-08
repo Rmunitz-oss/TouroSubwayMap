@@ -6,18 +6,13 @@ import static java.util.Collections.*;
 import static touro.subwaymap.SubwayStations.*;
 
 public class SubwayService {
-    //clean, which belong in methods? public vs private?
-    private SubwayStations subwayStations;
+    private final SubwayStations subwayStations;
     private Station start;
     private Station end;
     private ArrayList<Station> unvisitedStations = new ArrayList<>();
     private Station closestStation;
-    private final int length = 1;
 
-    //where should this kind of setup be?
-    // if not here,getSubwayRoute would need a SubwayStations object as a param? (not intuitive)
-    //create constructor for SubwayService that takes SubwayStation arg?
-    public void initialize() throws IOException {
+    public SubwayService () throws IOException {
         JSONReader jsonReader = new JSONReader();
         subwayStations = jsonReader.readSubwayStationJSON();
         Map<String, ArrayList<Integer>> lineStationMap = jsonReader.readSubwayLinesJSON();
@@ -25,18 +20,21 @@ public class SubwayService {
         subwayDataManager.processSubwayData(subwayStations, lineStationMap);
     }
 
-    public ArrayList<Station> getSubwayRoute (double [] startLocation, double [] endLocation) {//what params would really be passed?
-        start = findNearestStation(startLocation[0],startLocation[1]);
-        end = findNearestStation(endLocation[0],endLocation[1]);
-        ArrayList<Station> shortestRoute = findShortestRoute();
-        return shortestRoute; //append final station? rewrite loop to include end/ exclude start?
+    public SubwayStations getSubwayStations(){
+        return this.subwayStations;
     }
 
+    public ArrayList<Station> getSubwayRoute (double [] startLocation, double [] endLocation) {
+        start = findNearestStation(startLocation[0],startLocation[1]);
+        end = findNearestStation(endLocation[0],endLocation[1]);
+        return findShortestRoute();
+    }
+
+
     private Station findNearestStation(double longitude, double latitude) {
-        Station closestStation = subwayStations.stations.stream().
+        return subwayStations.stations.stream().
                 min(Comparator.comparingDouble(station -> station.geometry.getDistance(longitude,latitude)))
                 .get();
-        return closestStation;
     }
 
     private ArrayList<Station> findShortestRoute() {
@@ -45,6 +43,7 @@ public class SubwayService {
             unvisitedStations.add(station);
         }
         start.properties.distance = 0;
+        closestStation = start;
         while (unvisitedStations.contains(end)){
             closestStation = getClosestStation();
             unvisitedStations.remove(closestStation);
@@ -52,6 +51,7 @@ public class SubwayService {
                 ArrayList<Station> adjacentStations = closestStation.properties.adjacentStations;
                 for (Station adjacentStation : adjacentStations){
                     if (unvisitedStations.contains(adjacentStation)){
+                        int length = 1;
                         int altDistance = closestStation.properties.distance + length;
                         if (altDistance <  adjacentStation.properties.distance){
                             adjacentStation.properties.distance = altDistance;
@@ -78,6 +78,7 @@ public class SubwayService {
     private ArrayList<Station> getStationPath() {
         ArrayList <Station> stationPath = new ArrayList<>();
         Station currentStation = end;
+        stationPath.add(currentStation);
         while (!currentStation.equals(start)){
             stationPath.add(currentStation.properties.previousStation);
             currentStation = currentStation.properties.previousStation;

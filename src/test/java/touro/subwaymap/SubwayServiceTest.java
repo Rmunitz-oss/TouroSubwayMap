@@ -1,33 +1,37 @@
 package touro.subwaymap;
 
 import org.junit.jupiter.api.Test;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
 import static touro.subwaymap.SubwayStations.*;
 
 public class SubwayServiceTest {
 
     @Test
-    public void getSubwayRoute(){
+    public void getSubwayRoute() throws IOException {
         //given
-        //initialize, connect data, etc?
         SubwayService subwayService = new SubwayService();
-        double [] startLocation = {70, 40}; //find coordinates to test
-        double [] endLocation = {71,30}; //find coordinates to test
+        SubwayStations subwayStations = subwayService.getSubwayStations();
+        double [] startLocation = {-73.97754993539385, 40.68442016526762}; //coordinates of Atlantic Av - Barclay Center
+        double [] endLocation = { -73.98192900232715, 40.76824700063689}; //coordinates of 59th St - Columbus Circle
         ArrayList<Station> expectedShortestRoute = new ArrayList<>();
-        expectedShortestRoute.add(mock(Station.class)); //add the correct stations?
-
-
+        expectedShortestRoute.add(subwayStations.stations.get(115)); //Atlantic Av - Barclay's Center (start)
+        expectedShortestRoute.add(subwayStations.stations.get(127)); //Nevins St
+        expectedShortestRoute.add(subwayStations.stations.get(404)); //Hoyt St
+        expectedShortestRoute.add(subwayStations.stations.get(405)); //Borough Hall
+        expectedShortestRoute.add(subwayStations.stations.get(445)); //Clark St
+        expectedShortestRoute.add(subwayStations.stations.get(401)); //Fulton St
+        expectedShortestRoute.add(subwayStations.stations.get(402)); //Park Pl
+        expectedShortestRoute.add(subwayStations.stations.get(403)); //Chambers St
+        expectedShortestRoute.add(subwayStations.stations.get(438)); //14th St
+        expectedShortestRoute.add(subwayStations.stations.get(357)); //34th St - Penn Station
+        expectedShortestRoute.add(subwayStations.stations.get(358)); //Times Sq - 42nd St
+        expectedShortestRoute.add(subwayStations.stations.get(2));   //50th St
+        expectedShortestRoute.add(subwayStations.stations.get(93));  //59th St - Columbus Circle (end)
 
         //when
-        ArrayList<Station> shortestRoute = subwayService.getSubwayRoute(startLocation, endLocation);
-
+        ArrayList<Station> shortestRoute = subwayService.getSubwayRoute(startLocation,endLocation);
 
         //then
         assertEquals(expectedShortestRoute,shortestRoute);

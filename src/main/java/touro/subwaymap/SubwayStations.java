@@ -12,6 +12,7 @@ public class SubwayStations {
         Properties properties;
         Geometry geometry;
 
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -24,7 +25,6 @@ public class SubwayStations {
         public int hashCode() {
             return Objects.hash(properties, geometry);
         }
-
 
         static class Properties {
             String name;
