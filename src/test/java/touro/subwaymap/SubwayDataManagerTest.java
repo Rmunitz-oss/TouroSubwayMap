@@ -21,7 +21,7 @@ public class SubwayDataManagerTest {
         givenStationLineConnections();
 
         //when
-        subwayDataManager.processSubwayData(subwayStations,lineStationMap,1);
+        subwayDataManager.processSubwayData(subwayStations,lineStationMap);
 
         //then
         //test hash map
